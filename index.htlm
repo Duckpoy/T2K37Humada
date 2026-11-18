@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kỷ Yếu 10T2 • Chuyên Huỳnh Mẫn Đạt</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+          colors: {
+            humada: { 50: '#f0f7ff', 100: '#e0effe', 500: '#0c91e6', 600: '#0073c4', 700: '#015b9f' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Ẩn hoàn toàn các nút thao tác quản trị trên trang khách */
+    .admin-only, #btn-add-timeline, #btn-add-photo {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+  <!-- Header / Hero -->
+  <header class="bg-gradient-to-r from-humada-700 to-humada-500 text-white py-16 px-4 text-center">
+    <h1 class="text-3xl md:text-5xl font-bold mb-3">10T2 • Chuyên Huỳnh Mẫn Đạt</h1>
+    <p class="text-humada-100 text-lg">Hành trình 3 năm kỷ niệm thanh xuân (2026 - 2029)</p>
+  </header>
+
+  <!-- Nội dung trang chính (Timeline, Thư viện ảnh, Sổ lưu bút...) -->
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">Hành Trình 3 Năm</h2>
+      <div id="timeline-container" class="space-y-4">
+        <!-- Dữ liệu timeline sẽ hiển thị ở đây -->
+        <p class="text-slate-500">Đang tải dữ liệu hành trình...</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Nút chuyển sang trang Quản trị viên (Admin) -->
+  <a href="admin.html" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-full shadow-2xl hover:bg-humada-600 transition flex items-center gap-2 z-50 text-sm font-semibold border border-slate-700">
+    <span>⚙️ Đăng Nhập Quản Trị</span>
+  </a>
+
+</body>
+</html>
