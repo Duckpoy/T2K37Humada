@@ -48,26 +48,13 @@
         .clean-border {
             border: 1px solid #e0effe;
         }
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f0f7ff;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #bae0fd;
-            border-radius: 9999px;
-        }
     </style>
 </head>
 <body class="antialiased selection:bg-humada-100 selection:text-humada-900 min-h-screen flex flex-col">
 
-    <!-- ========================================== -->
     <!-- KHUNG ĐĂNG NHẬP BẢO VỆ (USERNAME + PASSWORD) -->
-    <!-- ========================================== -->
-    <div id="auth-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl text-center clean-border">
+    <div id="auth-overlay" class="fixed inset-0 bg-slate-900/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <form onsubmit="handleLogin(event)" class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl text-center clean-border">
             <div class="w-16 h-16 bg-humada-50 text-humada-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold shadow-xs">🔐</div>
             <h2 class="text-xl font-bold text-slate-900 mb-1">Khu Vực Quản Trị 10T2</h2>
             <p class="text-xs text-slate-500 mb-6">Nhập tài khoản ban cán sự để truy cập bảng điều khiển.</p>
@@ -75,18 +62,17 @@
             <div class="space-y-4 text-left mb-6">
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">TÊN ĐĂNG NHẬP</label>
-                    <input type="text" id="admin-user" placeholder="Nhập tên đăng nhập..." 
+                    <input type="text" id="admin-user" required placeholder="Nhập: admin10t2" 
                         class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-humada-500 text-sm bg-slate-50/50">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">MẬT KHẨU</label>
-                    <input type="password" id="admin-pass" placeholder="Nhập mật khẩu..." 
-                        class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-humada-500 text-sm bg-slate-50/50"
-                        onkeydown="if(event.key === 'Enter') checkCredentials()">
+                    <input type="password" id="admin-pass" required placeholder="Nhập: humada2026" 
+                        class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-humada-500 text-sm bg-slate-50/50">
                 </div>
             </div>
 
-            <button onclick="checkCredentials()" 
+            <button type="submit" 
                 class="w-full bg-humada-600 hover:bg-humada-700 text-white font-semibold py-3.5 rounded-xl transition shadow-lg shadow-humada-500/25 text-sm cursor-pointer">
                 Truy Cập Quản Trị
             </button>
@@ -95,7 +81,7 @@
             <div class="mt-6 border-t border-slate-100 pt-4">
                 <a href="index.html" class="text-xs text-slate-500 hover:text-humada-600 transition font-medium">← Quay lại trang chủ kỷ yếu</a>
             </div>
-        </div>
+        </form>
     </div>
 
     <!-- HEADER ADMIN -->
@@ -117,15 +103,11 @@
                 </div>
 
                 <div class="flex items-center gap-2 sm:gap-3">
-                    <a href="index.html" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-humada-50 hover:bg-humada-100 text-humada-800 text-xs sm:text-sm font-semibold transition-colors">
+                    <a href="index.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-humada-50 hover:bg-humada-100 text-humada-800 text-xs sm:text-sm font-semibold transition-colors">
                         <i data-lucide="external-link" class="w-4 h-4"></i>
                         <span>Xem trang chính</span>
                     </a>
-                    <button onclick="exportJSON()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-humada-600 hover:bg-humada-700 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer">
-                        <i data-lucide="download" class="w-4 h-4"></i>
-                        <span>Xuất Backup</span>
-                    </button>
-                    <button onclick="logout()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs sm:text-sm font-semibold transition-colors cursor-pointer" title="Đăng xuất khỏi phiên">
+                    <button onclick="logout()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs sm:text-sm font-semibold transition-colors cursor-pointer">
                         <i data-lucide="log-out" class="w-4 h-4"></i>
                         <span>Đăng xuất</span>
                     </button>
@@ -264,8 +246,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tiêu đề</label>
-                    <input type="text" id="edit-title" required placeholder="Tiêu đề sự kiện hoặc cột mốc..." class="w-full px-3.5 py-2.5 rounded-xl border border-humada-200 text-sm focus:outline-none focus:border-humada-500">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tiêu đề / Tác giả</label>
+                    <input type="text" id="edit-title" required placeholder="Tiêu đề sự kiện, cột mốc hoặc tên người gửi..." class="w-full px-3.5 py-2.5 rounded-xl border border-humada-200 text-sm focus:outline-none focus:border-humada-500">
                 </div>
 
                 <div id="group-location" class="hidden">
@@ -307,19 +289,21 @@
         <span id="toast-message">Đã cập nhật thành công!</span>
     </div>
 
-    <!-- SCRIPT QUẢN TRỊ ADMIN & XÁC THỰC TÀI KHOẢN -->
+    <!-- SCRIPT QUẢN TRỊ & XÁC THỰC -->
     <script>
-        // --- PHẦN XÁC THỰC TÀI KHOẢN & MẬT KHẨU ---
-        const CORRECT_USER = "admin10t2";  // Bạn có thể đổi tên đăng nhập ở đây
-        const CORRECT_PASS = "humada2026";  // Bạn có thể đổi mật khẩu ở đây
+        const CORRECT_USER = "admin10t2";
+        const CORRECT_PASS = "humada2026";
+        const STORAGE_KEY = 'humada_10t2_yearbook_v1';
 
-        function checkCredentials() {
+        function handleLogin(event) {
+            event.preventDefault();
             const userInput = document.getElementById('admin-user').value.trim();
             const passInput = document.getElementById('admin-pass').value.trim();
             const errorMsg = document.getElementById('error-msg');
 
             if (userInput === CORRECT_USER && passInput === CORRECT_PASS) {
                 document.getElementById('auth-overlay').style.display = 'none';
+                errorMsg.classList.add('hidden');
                 sessionStorage.setItem('humada_admin_logged', 'true');
             } else {
                 errorMsg.classList.remove('hidden');
@@ -331,15 +315,6 @@
             location.reload();
         }
 
-        // Tự động bỏ qua đăng nhập nếu đã xác thực trong phiên làm việc
-        window.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem('humada_admin_logged') === 'true') {
-                document.getElementById('auth-overlay').style.display = 'none';
-            }
-        });
-
-        // --- PHẦN XỬ LÝ DỮ LIỆU DASHBOARD ---
-        const STORAGE_KEY = 'humada_10t2_yearbook_v1';
         let appData = loadData();
         let currentTab = 'timelines';
         let tempBase64Image = '';
@@ -360,15 +335,15 @@
                 updateStats();
                 renderTable();
             } catch (e) {
-                showToast('Lỗi lưu bộ nhớ LocalStorage!', true);
+                showToast('Lỗi lưu bộ nhớ trình duyệt!');
             }
         }
 
         function updateStats() {
-            document.getElementById('count-timelines').textContent = appData.timelines.length;
-            document.getElementById('count-events').textContent = appData.events.length;
-            document.getElementById('count-photos').textContent = appData.photos.length;
-            document.getElementById('count-notes').textContent = appData.notes.length;
+            document.getElementById('count-timelines').textContent = (appData.timelines || []).length;
+            document.getElementById('count-events').textContent = (appData.events || []).length;
+            document.getElementById('count-photos').textContent = (appData.photos || []).length;
+            document.getElementById('count-notes').textContent = (appData.notes || []).length;
         }
 
         function switchAdminTab(tab) {
@@ -403,7 +378,7 @@
             const items = appData[currentTab] || [];
 
             if (items.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 text-sm">Chưa có dữ liệu nào trong mục này.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 text-sm">Chưa có dữ liệu nào trong mục này. Hãy bấm nút màu xanh ở góc phải để thêm!</td></tr>`;
                 return;
             }
 
@@ -467,13 +442,9 @@
             document.getElementById('edit-id').value = '';
             tempBase64Image = '';
 
-            const groupLocation = document.getElementById('group-location');
-            const groupCategory = document.getElementById('group-category');
-            const groupImage = document.getElementById('group-image');
-
-            groupLocation.classList.toggle('hidden', currentTab !== 'events');
-            groupCategory.classList.toggle('hidden', currentTab !== 'photos');
-            groupImage.classList.toggle('hidden', currentTab === 'timelines' || currentTab === 'notes');
+            document.getElementById('group-location').classList.toggle('hidden', currentTab !== 'events');
+            document.getElementById('group-category').classList.toggle('hidden', currentTab !== 'photos');
+            document.getElementById('group-image').classList.toggle('hidden', currentTab === 'timelines' || currentTab === 'notes');
 
             if (id) {
                 heading.textContent = `Chỉnh sửa ${getTabName(currentTab)}`;
@@ -484,13 +455,13 @@
                     document.getElementById('edit-date').value = item.date || '';
                     document.getElementById('edit-title').value = item.title || item.author || '';
                     document.getElementById('edit-desc').value = item.desc || item.caption || item.content || '';
-                    if (currentTab === 'events') document.getElementById('edit-location').value = item.location || '';
+                    if (currentTab === 'events') {
+                        document.getElementById('edit-location').value = item.location || '';
+                        document.getElementById('edit-image-url').value = item.image || '';
+                    }
                     if (currentTab === 'photos') {
                         document.getElementById('edit-category').value = item.category || 'Lớp học';
                         document.getElementById('edit-image-url').value = item.url || '';
-                    }
-                    if (currentTab === 'events') {
-                        document.getElementById('edit-image-url').value = item.image || '';
                     }
                 }
             } else {
@@ -553,6 +524,8 @@
             const urlInput = document.getElementById('edit-image-url').value.trim();
             const finalImg = tempBase64Image || (urlInput !== '[Đã tải ảnh từ máy]' ? urlInput : '') || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80';
 
+            if (!appData[currentTab]) appData[currentTab] = [];
+
             if (currentTab === 'timelines') {
                 if (id) {
                     const item = appData.timelines.find(i => i.id === id);
@@ -571,4 +544,55 @@
             } else if (currentTab === 'photos') {
                 const category = document.getElementById('edit-category').value;
                 if (id) {
-                    const item = appData.photos
+                    const item = appData.photos.find(i => i.id === id);
+                    if (item) { item.year = year; item.category = category; item.title = title; item.caption = desc; if (finalImg) item.url = finalImg; }
+                } else {
+                    appData.photos.unshift({ id: 'ph-' + Date.now(), year, category, title, caption: desc, url: finalImg });
+                }
+            } else if (currentTab === 'notes') {
+                if (id) {
+                    const item = appData.notes.find(i => i.id === id);
+                    if (item) { item.author = title; item.classTag = document.getElementById('edit-year').options[document.getElementById('edit-year').selectedIndex].text; item.date = date; item.content = desc; }
+                } else {
+                    appData.notes.unshift({ id: 'nt-' + Date.now(), author: title, classTag: '10T2 (2026–2027)', date: date, content: desc });
+                }
+            }
+
+            saveData();
+            closeEditModal();
+            showToast('Đã lưu thành công và đồng bộ với trang chính!');
+        });
+
+        function deleteAdminItem(id) {
+            appData[currentTab] = appData[currentTab].filter(i => i.id !== id);
+            saveData();
+            showToast('Đã xóa mục thành công.');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3000);
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('humada_admin_logged') === 'true') {
+                document.getElementById('auth-overlay').style.display = 'none';
+            }
+            updateStats();
+            renderTable();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
