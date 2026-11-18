@@ -54,45 +54,17 @@
                 linear-gradient(to right, rgba(12, 145, 230, 0.05) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(12, 145, 230, 0.05) 1px, transparent 1px);
         }
-
-        /* Hiệu ứng chuyển cảnh mượt mà khi cuộn trang */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Hiệu ứng xuất hiện ngay khi tải trang (Hero) */
-        @keyframes heroFadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(18px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate-hero-1 { animation: heroFadeUp 0.7s ease-out forwards; }
-        .animate-hero-2 { opacity: 0; animation: heroFadeUp 0.7s ease-out 0.15s forwards; }
-        .animate-hero-3 { opacity: 0; animation: heroFadeUp 0.7s ease-out 0.3s forwards; }
-        .animate-hero-4 { opacity: 0; animation: heroFadeUp 0.7s ease-out 0.45s forwards; }
     </style>
 </head>
 <body class="antialiased selection:bg-humada-100 selection:text-humada-900">
 
     <!-- NAVBAR -->
-    <header class="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-humada-100 transition-all">
+    <header class="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-humada-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
                 <!-- Logo -->
-                <a href="#" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 rounded-xl bg-humada-600 text-white flex items-center justify-center font-display font-extrabold text-xl shadow-sm group-hover:scale-105 transition-transform">
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-humada-600 text-white flex items-center justify-center font-display font-extrabold text-xl shadow-sm">
                         π
                     </div>
                     <div>
@@ -115,7 +87,7 @@
                 </nav>
 
                 <!-- Nút sang trang Quản trị -->
-                <a href="admin.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-humada-600 hover:bg-humada-700 text-white text-xs sm:text-sm font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                <a href="admin.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-humada-600 hover:bg-humada-700 text-white text-xs sm:text-sm font-semibold transition-all shadow-sm">
                     <i data-lucide="settings" class="w-4 h-4"></i>
                     <span>Quản trị</span>
                 </a>
@@ -126,26 +98,26 @@
     <!-- HERO SECTION -->
     <section id="tong-quan" class="relative overflow-hidden hero-grid bg-gradient-to-b from-humada-50/80 via-white to-white pt-14 pb-20 sm:pt-20 sm:pb-28 border-b border-humada-100">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="animate-hero-1 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-humada-50 border border-humada-200 text-humada-700 text-xs font-semibold mb-6">
-                <span class="w-2 h-2 rounded-full bg-humada-500 animate-pulse"></span>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-humada-50 border border-humada-200 text-humada-700 text-xs font-semibold mb-6">
+                <span class="w-2 h-2 rounded-full bg-humada-500"></span>
                 <span>Trường THPT Chuyên Huỳnh Mẫn Đạt • Rạch Giá</span>
             </div>
 
-            <h1 class="animate-hero-2 font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl text-humada-950 tracking-tight leading-tight mb-6">
+            <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl text-humada-950 tracking-tight leading-tight mb-6">
                 Thanh Xuân Dưới Mái Trường <br class="hidden sm:block" />
                 <span class="text-humada-600">Chuyên Huỳnh Mẫn Đạt</span>
             </h1>
 
-            <p class="animate-hero-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">
+            <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">
                 Lưu giữ trọn vẹn hành trình 3 năm của tập thể lớp <strong class="text-humada-900">10T2 (Niên khóa 2026 – 2029)</strong> — từ những ngày đầu bỡ ngỡ bước vào cổng trường chuyên đến khi cùng nhau trưởng thành và tỏa sáng.
             </p>
 
-            <div class="animate-hero-4 flex flex-wrap items-center justify-center gap-4">
-                <a href="#hanh-trinh" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-humada-600 hover:bg-humada-700 text-white font-semibold text-sm transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="#hanh-trinh" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-humada-600 hover:bg-humada-700 text-white font-semibold text-sm transition-all shadow-sm">
                     <i data-lucide="compass" class="w-4 h-4"></i>
                     <span>Khám phá hành trình 3 năm</span>
                 </a>
-                <a href="#thu-vien" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-humada-50 text-humada-800 font-semibold text-sm clean-border transition-all hover:shadow-sm hover:-translate-y-0.5">
+                <a href="#thu-vien" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-humada-50 text-humada-800 font-semibold text-sm clean-border transition-all">
                     <i data-lucide="images" class="w-4 h-4 text-humada-600"></i>
                     <span>Xem thư viện ảnh lớp</span>
                 </a>
@@ -154,7 +126,247 @@
     </section>
 
     <!-- HÀNH TRÌNH 3 NĂM (TIMELINE) -->
-    <section id="hanh-trinh" class="fade-in-section py-16 sm:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="hanh-trinh" class="py-16 sm:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <span class="text-xs font-bold uppercase tracking-widest text-humada-600">Dòng Thời Gian</span>
-            <h2 class="font-display font-bold text-2xl sm:text-3xl text-humada-950 mt-2">Hành Trình 3
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-humada-950 mt-2">Hành Trình 3 Năm Thanh Xuân</h2>
+        </div>
+
+        <!-- Bộ lọc năm học -->
+        <div class="flex justify-center gap-2 mb-10">
+            <button onclick="filterYear('all')" class="year-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-humada-600 text-white cursor-pointer" data-year="all">Tất cả</button>
+            <button onclick="filterYear('10')" class="year-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-600 hover:bg-humada-50 clean-border cursor-pointer" data-year="10">Lớp 10</button>
+            <button onclick="filterYear('11')" class="year-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-600 hover:bg-humada-50 clean-border cursor-pointer" data-year="11">Lớp 11</button>
+            <button onclick="filterYear('12')" class="year-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-600 hover:bg-humada-50 clean-border cursor-pointer" data-year="12">Lớp 12</button>
+        </div>
+
+        <div id="timeline-list" class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-humada-200">
+            <!-- Render tự động từ LocalStorage -->
+        </div>
+    </section>
+
+    <!-- SỰ KIỆN & DẤU ẤN -->
+    <section id="su-kien" class="py-16 sm:py-24 bg-white border-y border-humada-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-humada-600">Hoạt Động Nổi Bật</span>
+                <h2 class="font-display font-bold text-2xl sm:text-3xl text-humada-950 mt-2">Sự Kiện & Dấu Ấn 10T2</h2>
+            </div>
+
+            <div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Render tự động -->
+            </div>
+        </div>
+    </section>
+
+    <!-- THƯ VIỆN ẢNH -->
+    <section id="thu-vien" class="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-humada-600">Kho Lưu Trữ Hình Ảnh</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-humada-950 mt-2">Thư Viện Khoảnh Khắc</h2>
+        </div>
+
+        <div id="photos-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Render tự động -->
+        </div>
+    </section>
+
+    <!-- SỔ LƯU BÚT -->
+    <section id="luu-but" class="py-16 sm:py-24 bg-humada-50/60 border-t border-humada-100">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-humada-600">Gửi Lời Yêu Thương</span>
+                <h2 class="font-display font-bold text-2xl sm:text-3xl text-humada-950 mt-2">Sổ Lưu Bút Tập Thể</h2>
+            </div>
+
+            <div id="notes-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Render tự động -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-humada-100 py-10 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="font-display font-bold text-humada-950 text-base">10T2 • THPT Chuyên Huỳnh Mẫn Đạt</p>
+            <p class="text-xs text-slate-500 mt-1">Niên khóa 2026 – 2029 • Lưu giữ thanh xuân rực rỡ</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT ĐỌC DỮ LIỆU TỪ LOCALSTORAGE -->
+    <script>
+        const STORAGE_KEY = 'humada_10t2_yearbook_v1';
+
+        const DEFAULT_DATA = {
+            timelines: [
+                {
+                    id: 'tl-1',
+                    year: '10',
+                    date: '05/09/2026',
+                    title: 'Ngày Khai Giảng Đầu Tiên Tại Chuyên Huỳnh Mẫn Đạt',
+                    desc: 'Chính thức trở thành thành viên của đại gia đình 10T2 – Chuyên Toán K37. Những gương mặt mới, những người bạn đồng hành cho hành trình 3 năm sắp tới.'
+                }
+            ],
+            events: [
+                {
+                    id: 'ev-1',
+                    year: '10',
+                    date: '20/11/2026',
+                    location: 'THPT Chuyên Huỳnh Mẫn Đạt',
+                    title: 'Chào Mừng Ngày Nhà Giáo Việt Nam 20/11',
+                    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80',
+                    desc: 'Tập thể 10T2 cùng nhau chuẩn bị tiết mục văn nghệ và những lời tri ân sâu sắc gửi đến thầy cô.'
+                }
+            ],
+            photos: [
+                {
+                    id: 'ph-1',
+                    year: '10',
+                    category: 'Lớp học',
+                    title: 'Tập thể 10T2 ngày đầu nhập học',
+                    caption: 'Bức ảnh kỷ niệm đầu tiên của cả lớp tại sân trường.',
+                    url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80'
+                }
+            ],
+            notes: [
+                {
+                    id: 'nt-1',
+                    author: 'Ban Cán Sự 10T2',
+                    classTag: '10T2 (2026–2027)',
+                    date: 'Tháng 9/2026',
+                    content: 'Chúc tập thể 10T2 chúng ta sẽ có thật nhiều kỷ niệm đẹp, luôn đoàn kết và đạt thành tích thật cao dưới mái trường Chuyên Huỳnh Mẫn Đạt!'
+                }
+            ]
+        };
+
+        function getYearbookData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.timelines || parsed.events || parsed.photos || parsed.notes) {
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+            return DEFAULT_DATA;
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]);
+        }
+
+        let currentYearFilter = 'all';
+
+        function filterYear(year) {
+            currentYearFilter = year;
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                if (btn.dataset.year === year) {
+                    btn.className = 'year-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-humada-600 text-white cursor-pointer';
+                } else {
+                    btn.className = 'year-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-600 hover:bg-humada-50 clean-border cursor-pointer';
+                }
+            });
+            renderAll();
+        }
+
+        function renderAll() {
+            const data = getYearbookData();
+
+            // 1. Render Timeline
+            const tlContainer = document.getElementById('timeline-list');
+            const filteredTL = (data.timelines || []).filter(item => currentYearFilter === 'all' || item.year === currentYearFilter);
+            if (filteredTL.length === 0) {
+                tlContainer.innerHTML = `<div class="text-center text-slate-400 text-sm py-8 bg-white rounded-2xl clean-border relative z-10">Chưa có cột mốc nào cho mục này.</div>`;
+            } else {
+                tlContainer.innerHTML = filteredTL.map(item => `
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-humada-600 text-white font-bold text-xs shadow-sm shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                            ${escapeHTML(item.year)}
+                        </div>
+                        <div class="w-[calc(100%-3.5rem)] md:w-[calc(50%-2.5rem)] bg-white p-5 sm:p-6 rounded-2xl clean-border shadow-xs">
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="text-xs font-bold text-humada-600 bg-humada-50 px-2.5 py-1 rounded-lg">Lớp ${escapeHTML(item.year)}</span>
+                                <span class="text-xs font-medium text-slate-400">${escapeHTML(item.date)}</span>
+                            </div>
+                            <h3 class="font-display font-bold text-base sm:text-lg text-humada-950 mb-1.5">${escapeHTML(item.title)}</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">${escapeHTML(item.desc)}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 2. Render Events
+            const evContainer = document.getElementById('events-grid');
+            const events = data.events || [];
+            if (events.length === 0) {
+                evContainer.innerHTML = `<div class="col-span-full text-center text-slate-400 text-sm py-8">Chưa có sự kiện nào được cập nhật.</div>`;
+            } else {
+                evContainer.innerHTML = events.map(ev => `
+                    <div class="bg-humada-50/40 rounded-2xl overflow-hidden clean-border flex flex-col">
+                        <img src="${ev.image}" alt="${escapeHTML(ev.title)}" class="w-full h-48 object-cover bg-humada-100" onerror="this.src='https://placehold.co/600x400/e0effe/015b9f?text=10T2+HUMADA'">
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="flex items-center justify-between text-xs text-humada-600 font-semibold mb-2">
+                                <span>Lớp ${escapeHTML(ev.year)} • ${escapeHTML(ev.date)}</span>
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-humada-950 mb-2">${escapeHTML(ev.title)}</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed flex-1">${escapeHTML(ev.desc)}</p>
+                            <div class="mt-4 pt-3 border-t border-humada-100 text-xs text-slate-500 flex items-center gap-1.5">
+                                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-humada-500"></i>
+                                <span>${escapeHTML(ev.location || 'THPT Chuyên Huỳnh Mẫn Đạt')}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 3. Render Photos
+            const phContainer = document.getElementById('photos-grid');
+            const photos = data.photos || [];
+            if (photos.length === 0) {
+                phContainer.innerHTML = `<div class="col-span-full text-center text-slate-400 text-sm py-8">Chưa có hình ảnh nào trong thư viện.</div>`;
+            } else {
+                phContainer.innerHTML = photos.map(ph => `
+                    <div class="bg-white rounded-2xl overflow-hidden clean-border group">
+                        <div class="overflow-hidden h-56 bg-humada-100">
+                            <img src="${ph.url}" alt="${escapeHTML(ph.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/600x400/e0effe/015b9f?text=10T2'">
+                        </div>
+                        <div class="p-4">
+                            <span class="text-[11px] font-semibold text-humada-600 bg-humada-50 px-2 py-0.5 rounded-md">${escapeHTML(ph.category)} • Lớp ${escapeHTML(ph.year)}</span>
+                            <h3 class="font-display font-bold text-base text-humada-950 mt-2">${escapeHTML(ph.title)}</h3>
+                            <p class="text-xs text-slate-500 mt-1">${escapeHTML(ph.caption)}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 4. Render Notes
+            const ntContainer = document.getElementById('notes-grid');
+            const notes = data.notes || [];
+            if (notes.length === 0) {
+                ntContainer.innerHTML = `<div class="col-span-full text-center text-slate-400 text-sm py-8">Chưa có lời nhắn lưu bút nào.</div>`;
+            } else {
+                ntContainer.innerHTML = notes.map(nt => `
+                    <div class="bg-white p-6 rounded-2xl clean-border">
+                        <p class="text-sm text-slate-700 italic leading-relaxed mb-4">"${escapeHTML(nt.content)}"</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-humada-50">
+                            <div>
+                                <div class="font-bold text-sm text-humada-950">${escapeHTML(nt.author)}</div>
+                                <div class="text-xs text-humada-600">${escapeHTML(nt.classTag)}</div>
+                            </div>
+                            <span class="text-xs text-slate-400">${escapeHTML(nt.date)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        window.addEventListener('DOMContentLoaded', renderAll);
+    </script>
+</body>
+</html>
