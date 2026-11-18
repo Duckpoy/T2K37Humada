@@ -1,4 +1,3 @@
-<!-- ... existing code ... -->
 <!DOCTYPE html>
 <html lang="vi" class="scroll-smooth">
 <head>
@@ -64,6 +63,41 @@
 </head>
 <body class="antialiased selection:bg-humada-100 selection:text-humada-900 min-h-screen flex flex-col">
 
+    <!-- ========================================== -->
+    <!-- KHUNG ĐĂNG NHẬP BẢO VỆ (USERNAME + PASSWORD) -->
+    <!-- ========================================== -->
+    <div id="auth-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl text-center clean-border">
+            <div class="w-16 h-16 bg-humada-50 text-humada-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold shadow-xs">🔐</div>
+            <h2 class="text-xl font-bold text-slate-900 mb-1">Khu Vực Quản Trị 10T2</h2>
+            <p class="text-xs text-slate-500 mb-6">Nhập tài khoản ban cán sự để truy cập bảng điều khiển.</p>
+            
+            <div class="space-y-4 text-left mb-6">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">TÊN ĐĂNG NHẬP</label>
+                    <input type="text" id="admin-user" placeholder="Nhập tên đăng nhập..." 
+                        class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-humada-500 text-sm bg-slate-50/50">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">MẬT KHẨU</label>
+                    <input type="password" id="admin-pass" placeholder="Nhập mật khẩu..." 
+                        class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-humada-500 text-sm bg-slate-50/50"
+                        onkeydown="if(event.key === 'Enter') checkCredentials()">
+                </div>
+            </div>
+
+            <button onclick="checkCredentials()" 
+                class="w-full bg-humada-600 hover:bg-humada-700 text-white font-semibold py-3.5 rounded-xl transition shadow-lg shadow-humada-500/25 text-sm cursor-pointer">
+                Truy Cập Quản Trị
+            </button>
+            <p id="error-msg" class="text-rose-500 text-xs font-medium mt-3 hidden">Tên đăng nhập hoặc mật khẩu không chính xác!</p>
+            
+            <div class="mt-6 border-t border-slate-100 pt-4">
+                <a href="index.html" class="text-xs text-slate-500 hover:text-humada-600 transition font-medium">← Quay lại trang chủ kỷ yếu</a>
+            </div>
+        </div>
+    </div>
+
     <!-- HEADER ADMIN -->
     <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-humada-100 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,6 +124,10 @@
                     <button onclick="exportJSON()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-humada-600 hover:bg-humada-700 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer">
                         <i data-lucide="download" class="w-4 h-4"></i>
                         <span>Xuất Backup</span>
+                    </button>
+                    <button onclick="logout()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs sm:text-sm font-semibold transition-colors cursor-pointer" title="Đăng xuất khỏi phiên">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        <span>Đăng xuất</span>
                     </button>
                 </div>
             </div>
@@ -269,8 +307,38 @@
         <span id="toast-message">Đã cập nhật thành công!</span>
     </div>
 
-    <!-- SCRIPT QUẢN TRỊ ADMIN -->
+    <!-- SCRIPT QUẢN TRỊ ADMIN & XÁC THỰC TÀI KHOẢN -->
     <script>
+        // --- PHẦN XÁC THỰC TÀI KHOẢN & MẬT KHẨU ---
+        const CORRECT_USER = "admin10t2";  // Bạn có thể đổi tên đăng nhập ở đây
+        const CORRECT_PASS = "humada2026";  // Bạn có thể đổi mật khẩu ở đây
+
+        function checkCredentials() {
+            const userInput = document.getElementById('admin-user').value.trim();
+            const passInput = document.getElementById('admin-pass').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+
+            if (userInput === CORRECT_USER && passInput === CORRECT_PASS) {
+                document.getElementById('auth-overlay').style.display = 'none';
+                sessionStorage.setItem('humada_admin_logged', 'true');
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('humada_admin_logged');
+            location.reload();
+        }
+
+        // Tự động bỏ qua đăng nhập nếu đã xác thực trong phiên làm việc
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('humada_admin_logged') === 'true') {
+                document.getElementById('auth-overlay').style.display = 'none';
+            }
+        });
+
+        // --- PHẦN XỬ LÝ DỮ LIỆU DASHBOARD ---
         const STORAGE_KEY = 'humada_10t2_yearbook_v1';
         let appData = loadData();
         let currentTab = 'timelines';
@@ -342,7 +410,7 @@
             tbody.innerHTML = items.map(item => {
                 let mainContent = '';
                 let subInfo = `Lớp ${item.year || '10'}`;
-                let timeInfo = item.date || item.date || '—';
+                let timeInfo = item.date || '—';
 
                 if (currentTab === 'timelines') {
                     mainContent = `<div class="font-bold text-humada-950">${escapeHTML(item.title)}</div><div class="text-xs text-slate-500 line-clamp-1">${escapeHTML(item.desc)}</div>`;
@@ -503,65 +571,4 @@
             } else if (currentTab === 'photos') {
                 const category = document.getElementById('edit-category').value;
                 if (id) {
-                    const item = appData.photos.find(i => i.id === id);
-                    if (item) { item.year = year; item.category = category; item.title = title; item.caption = desc; if (finalImg) item.url = finalImg; }
-                } else {
-                    appData.photos.unshift({ id: 'ph-' + Date.now(), year, category, title, caption: desc, url: finalImg });
-                }
-            } else if (currentTab === 'notes') {
-                if (id) {
-                    const item = appData.notes.find(i => i.id === id);
-                    if (item) { item.author = title; item.classTag = document.getElementById('edit-year').options[document.getElementById('edit-year').selectedIndex].text; item.content = desc; }
-                } else {
-                    appData.notes.unshift({ id: 'nt-' + Date.now(), author: title, classTag: '10T2 (2026–2027)', date: date, content: desc });
-                }
-            }
-
-            saveData();
-            closeEditModal();
-            showToast('Đã lưu thành công và đồng bộ với trang chính!');
-        });
-
-        function deleteAdminItem(id) {
-            appData[currentTab] = appData[currentTab].filter(i => i.id !== id);
-            saveData();
-            showToast('Đã xóa mục thành công.');
-        }
-
-        function exportJSON() {
-            const dataStr = JSON.stringify(appData, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Backup_10T2_HUMADA_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('Đã xuất file backup dữ liệu thành công!');
-        }
-
-        function escapeHTML(str) {
-            if (!str) return '';
-            return str.replace(/[&<>"']/g, function(m) {
-                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m];
-            });
-        }
-
-        function showToast(message, isError = false) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').textContent = message;
-            toast.classList.remove('hidden');
-            toast.classList.add('flex');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-                toast.classList.remove('flex');
-            }, 3000);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            updateStats();
-            renderTable();
-        });
-    </script>
-</body>
-</html>
+                    const item = appData.photos
