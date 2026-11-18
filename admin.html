@@ -1,0 +1,567 @@
+<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard • Kỷ Yếu 10T2 HUMADA</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        humada: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            200: '#bae0fd',
+                            300: '#7cc8fb',
+                            400: '#36acf6',
+                            500: '#0c91e6',
+                            600: '#0073c4',
+                            700: '#015b9f',
+                            800: '#064e83',
+                            900: '#0b416d',
+                            950: '#072a49',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fbff;
+            color: #0f172a;
+        }
+        .clean-border {
+            border: 1px solid #e0effe;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f7ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bae0fd;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-humada-100 selection:text-humada-900 min-h-screen flex flex-col">
+
+    <!-- HEADER ADMIN -->
+    <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-humada-100 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-humada-600 text-white flex items-center justify-center">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <span class="font-display font-bold text-base sm:text-lg text-humada-950 block leading-none">
+                            Admin Dashboard <span class="text-humada-500">•</span> 10T2
+                        </span>
+                        <span class="text-[11px] font-medium text-humada-600 tracking-wider uppercase mt-0.5 block">
+                            Quản trị dữ liệu kỷ yếu Chuyên Huỳnh Mẫn Đạt
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <a href="index.html" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-humada-50 hover:bg-humada-100 text-humada-800 text-xs sm:text-sm font-semibold transition-colors">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                        <span>Xem trang chính</span>
+                    </a>
+                    <button onclick="exportJSON()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-humada-600 hover:bg-humada-700 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span>Xuất Backup</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Thống kê tổng quan -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-2xl p-5 clean-border">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-9 h-9 rounded-xl bg-humada-50 text-humada-600 flex items-center justify-center">
+                        <i data-lucide="compass" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Hoạt động</span>
+                </div>
+                <div id="count-timelines" class="font-display font-bold text-2xl sm:text-3xl text-humada-950">0</div>
+                <div class="text-xs text-slate-500 mt-0.5">Cột mốc Timeline</div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 clean-border">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-9 h-9 rounded-xl bg-humada-50 text-humada-600 flex items-center justify-center">
+                        <i data-lucide="calendar-days" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-semibold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full">Sự kiện</span>
+                </div>
+                <div id="count-events" class="font-display font-bold text-2xl sm:text-3xl text-humada-950">0</div>
+                <div class="text-xs text-slate-500 mt-0.5">Bài viết sự kiện</div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 clean-border">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-9 h-9 rounded-xl bg-humada-50 text-humada-600 flex items-center justify-center">
+                        <i data-lucide="images" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">Thư viện</span>
+                </div>
+                <div id="count-photos" class="font-display font-bold text-2xl sm:text-3xl text-humada-950">0</div>
+                <div class="text-xs text-slate-500 mt-0.5">Hình ảnh kỷ yếu</div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 clean-border">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-9 h-9 rounded-xl bg-humada-50 text-humada-600 flex items-center justify-center">
+                        <i data-lucide="message-square-heart" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">Lưu bút</span>
+                </div>
+                <div id="count-notes" class="font-display font-bold text-2xl sm:text-3xl text-humada-950">0</div>
+                <div class="text-xs text-slate-500 mt-0.5">Lời nhắn gửi</div>
+            </div>
+        </div>
+
+        <!-- TABS QUẢN LÝ -->
+        <div class="bg-white rounded-2xl clean-border overflow-hidden mb-8">
+            <div class="flex flex-wrap items-center gap-2 p-4 border-b border-humada-100 bg-humada-50/50">
+                <button onclick="switchAdminTab('timelines')" id="admin-tab-timelines" class="admin-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-humada-600 text-white transition-colors cursor-pointer flex items-center gap-2">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span>Cột Mốc Timeline</span>
+                </button>
+                <button onclick="switchAdminTab('events')" id="admin-tab-events" class="admin-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-humada-100 transition-colors cursor-pointer flex items-center gap-2">
+                    <i data-lucide="calendar-days" class="w-4 h-4"></i>
+                    <span>Sự Kiện Nổi Bật</span>
+                </button>
+                <button onclick="switchAdminTab('photos')" id="admin-tab-photos" class="admin-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-humada-100 transition-colors cursor-pointer flex items-center gap-2">
+                    <i data-lucide="images" class="w-4 h-4"></i>
+                    <span>Thư Viện Ảnh</span>
+                </button>
+                <button onclick="switchAdminTab('notes')" id="admin-tab-notes" class="admin-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-humada-100 transition-colors cursor-pointer flex items-center gap-2">
+                    <i data-lucide="message-square-heart" class="w-4 h-4"></i>
+                    <span>Sổ Lưu Bút</span>
+                </button>
+            </div>
+
+            <!-- Nút hành động nhanh trong Tab -->
+            <div class="p-4 sm:p-6 border-b border-humada-100 flex items-center justify-between flex-wrap gap-4">
+                <div>
+                    <h3 id="admin-section-title" class="font-display font-bold text-lg text-humada-950">Quản lý Cột Mốc Timeline</h3>
+                    <p id="admin-section-desc" class="text-xs sm:text-sm text-slate-500 mt-0.5">Thêm, sửa hoặc xóa các mốc thời gian của lớp 10T2 (2026–2029).</p>
+                </div>
+                <button onclick="openEditModal()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-humada-600 hover:bg-humada-700 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span id="btn-add-new-text">Thêm Cột Mốc Mới</span>
+                </button>
+            </div>
+
+            <!-- Bảng hiển thị dữ liệu -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-humada-50/70 border-b border-humada-100 text-xs font-semibold text-slate-600 uppercase">
+                            <th class="p-4 sm:px-6">Thông tin chính</th>
+                            <th class="p-4 sm:px-6">Niên khóa / Phân loại</th>
+                            <th class="p-4 sm:px-6">Thời gian</th>
+                            <th class="p-4 sm:px-6 text-right">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body" class="divide-y divide-humada-100 text-sm">
+                        <!-- Render bằng JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL THÊM / SỬA DỮ LIỆU -->
+    <div id="admin-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 sm:p-7 clean-border my-8 relative">
+            <div class="flex items-center justify-between pb-4 border-b border-humada-100">
+                <h3 id="modal-heading" class="font-display font-bold text-lg text-humada-950">Thêm Mới Dữ Liệu</h3>
+                <button onclick="closeEditModal()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="admin-form" class="space-y-4 pt-4">
+                <input type="hidden" id="edit-id">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Năm học / Niên khóa</label>
+                        <select id="edit-year" class="w-full px-3.5 py-2.5 rounded-xl border border-humada-200 text-sm focus:outline-none focus:border-humada-500 bg-white">
+                            <option value="10">Lớp 10 (10T2 - 2026–2027)</option>
+                            <option value="11">Lớp 11 (11T2 - 2027–2028)</option>
+                            <option value="12">Lớp 12 (12T2 - 2028–2029)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Thời gian / Ngày tháng</label>
+                        <input type="text" id="edit-date" required placeholder="VD: 20/11/2026" class="w-full px-3.5 py-2.5 rounded-xl border border-humada-200 text-sm focus:outline-none focus:border-humada-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tiêu đề</label>
+                    <input type="text" id="edit-title" required placeholder="Tiêu đề sự kiện hoặc cột mốc..." class="w-full px-3.5 py-2.5 rounded-xl border border-humada-200 text-sm focus:outline-none focus:border-humada-500">
+                </div>
+
+                <div id="group-location" class="hidden">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Địa điểm</label>
+                    <input type="text" id="edit-location" placeholder="VD: Sân trường Chuyên Huỳnh Mẫn Đạt" class="w-full px-3.5 py-2.5 rounded-xl border border-humada-200 text-sm focus:outline-none focus:border-humada-500">
+                </div>
+
+                <div id="group-category" class="hidden">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Chủ đề ảnh</label>
+                    <select id="edit-category" class="w-full px-3.5 py-2.5 rounded-xl border border-humada-200 text-sm focus:outline-none focus:border-humada-500 bg-white">
+                        <option value="Lớp học">Khoảnh khắc lớp học</option>
+                        <option value="Ngoại khóa">Hoạt động ngoại khóa</option>
+                        <option value="Sự kiện">Sự kiện trường</option>
+                    </select>
+                </div>
+
+                <div id="group-image" class="hidden space-y-2">
+                    <label class="block text-xs font-semibold text-slate-700">Hình ảnh (Tải file hoặc dán URL)</label>
+                    <input type="file" id="edit-file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-humada-50 file:text-humada-700 hover:file:bg-humada-100 cursor-pointer" onchange="handleAdminImageUpload(event)">
+                    <input type="url" id="edit-image-url" placeholder="Hoặc dán link ảnh (https://...)" class="w-full px-3.5 py-2 rounded-xl border border-humada-200 text-xs focus:outline-none focus:border-humada-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Mô tả chi tiết / Nội dung</label>
+                    <textarea id="edit-desc" rows="4" required placeholder="Viết nội dung chi tiết..." class="w-full px-3.5 py-2.5 rounded-xl border border-humada-200 text-sm focus:outline-none focus:border-humada-500 resize-none"></textarea>
+                </div>
+
+                <div class="pt-3 flex items-center justify-end gap-2.5">
+                    <button type="button" onclick="closeEditModal()" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 cursor-pointer">Hủy</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-humada-600 hover:bg-humada-700 text-white cursor-pointer">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2.5 px-4 py-3 rounded-xl bg-humada-900 text-white text-xs sm:text-sm font-medium border border-humada-700">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-sky-400"></i>
+        <span id="toast-message">Đã cập nhật thành công!</span>
+    </div>
+
+    <!-- SCRIPT QUẢN TRỊ ADMIN -->
+    <script>
+        const STORAGE_KEY = 'humada_10t2_yearbook_v1';
+        let appData = loadData();
+        let currentTab = 'timelines';
+        let tempBase64Image = '';
+
+        function loadData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) return JSON.parse(saved);
+            } catch (e) {
+                console.error(e);
+            }
+            return { timelines: [], events: [], photos: [], notes: [] };
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+                updateStats();
+                renderTable();
+            } catch (e) {
+                showToast('Lỗi lưu bộ nhớ LocalStorage!', true);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('count-timelines').textContent = appData.timelines.length;
+            document.getElementById('count-events').textContent = appData.events.length;
+            document.getElementById('count-photos').textContent = appData.photos.length;
+            document.getElementById('count-notes').textContent = appData.notes.length;
+        }
+
+        function switchAdminTab(tab) {
+            currentTab = tab;
+            ['timelines', 'events', 'photos', 'notes'].forEach(t => {
+                const btn = document.getElementById(`admin-tab-${t}`);
+                if (t === tab) {
+                    btn.classList.add('bg-humada-600', 'text-white');
+                    btn.classList.remove('text-slate-600', 'hover:bg-humada-100');
+                } else {
+                    btn.classList.remove('bg-humada-600', 'text-white');
+                    btn.classList.add('text-slate-600', 'hover:bg-humada-100');
+                }
+            });
+
+            const titles = {
+                timelines: { title: 'Quản lý Cột Mốc Timeline', desc: 'Thêm, sửa hoặc xóa các mốc thời gian của lớp 10T2.', btn: 'Thêm Cột Mốc Mới' },
+                events: { title: 'Quản lý Sự Kiện Nổi Bật', desc: 'Quản lý các bài viết sự kiện, dã ngoại, khai giảng kèm hình ảnh.', btn: 'Thêm Sự Kiện Mới' },
+                photos: { title: 'Quản lý Thư Viện Hình Ảnh', desc: 'Quản lý các khung hình kỉ niệm của tập thể Chuyên Toán 2.', btn: 'Tải Ảnh Mới Lên' },
+                notes: { title: 'Quản lý Sổ Lưu Bút', desc: 'Kiểm duyệt và quản lý các lời nhắn gửi từ học sinh.', btn: 'Thêm Lời Nhắn' }
+            };
+
+            document.getElementById('admin-section-title').textContent = titles[tab].title;
+            document.getElementById('admin-section-desc').textContent = titles[tab].desc;
+            document.getElementById('btn-add-new-text').textContent = titles[tab].btn;
+
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('admin-table-body');
+            const items = appData[currentTab] || [];
+
+            if (items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 text-sm">Chưa có dữ liệu nào trong mục này.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = items.map(item => {
+                let mainContent = '';
+                let subInfo = `Lớp ${item.year || '10'}`;
+                let timeInfo = item.date || item.date || '—';
+
+                if (currentTab === 'timelines') {
+                    mainContent = `<div class="font-bold text-humada-950">${escapeHTML(item.title)}</div><div class="text-xs text-slate-500 line-clamp-1">${escapeHTML(item.desc)}</div>`;
+                } else if (currentTab === 'events') {
+                    mainContent = `
+                        <div class="flex items-center gap-3">
+                            <img src="${item.image}" class="w-10 h-10 rounded-lg object-cover bg-humada-100" onerror="this.src='https://placehold.co/100x100/e0effe/015b9f?text=10T2'">
+                            <div>
+                                <div class="font-bold text-humada-950">${escapeHTML(item.title)}</div>
+                                <div class="text-xs text-slate-500">${escapeHTML(item.location || '')}</div>
+                            </div>
+                        </div>`;
+                } else if (currentTab === 'photos') {
+                    mainContent = `
+                        <div class="flex items-center gap-3">
+                            <img src="${item.url}" class="w-10 h-10 rounded-lg object-cover bg-humada-100" onerror="this.src='https://placehold.co/100x100/e0effe/015b9f?text=10T2'">
+                            <div>
+                                <div class="font-bold text-humada-950">${escapeHTML(item.title)}</div>
+                                <div class="text-xs text-slate-500">${escapeHTML(item.caption || '')}</div>
+                            </div>
+                        </div>`;
+                    subInfo = `${item.category} • Lớp ${item.year}`;
+                } else if (currentTab === 'notes') {
+                    mainContent = `<div class="font-bold text-humada-950">${escapeHTML(item.author)}</div><div class="text-xs text-slate-600 line-clamp-1">"${escapeHTML(item.content)}"</div>`;
+                    subInfo = item.classTag;
+                    timeInfo = item.date;
+                }
+
+                return `
+                    <tr class="hover:bg-humada-50/50 transition-colors">
+                        <td class="p-4 sm:px-6">${mainContent}</td>
+                        <td class="p-4 sm:px-6"><span class="px-2.5 py-1 rounded-lg bg-humada-50 text-humada-700 text-xs font-semibold">${escapeHTML(subInfo)}</span></td>
+                        <td class="p-4 sm:px-6 text-xs text-slate-600">${escapeHTML(timeInfo)}</td>
+                        <td class="p-4 sm:px-6 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button onclick="openEditModal('${item.id}')" class="p-2 rounded-xl text-slate-500 hover:text-humada-600 hover:bg-humada-100 transition-colors cursor-pointer" title="Chỉnh sửa">
+                                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="deleteAdminItem('${item.id}')" class="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer" title="Xóa">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function openEditModal(id = null) {
+            const modal = document.getElementById('admin-modal');
+            const heading = document.getElementById('modal-heading');
+            document.getElementById('admin-form').reset();
+            document.getElementById('edit-id').value = '';
+            tempBase64Image = '';
+
+            const groupLocation = document.getElementById('group-location');
+            const groupCategory = document.getElementById('group-category');
+            const groupImage = document.getElementById('group-image');
+
+            groupLocation.classList.toggle('hidden', currentTab !== 'events');
+            groupCategory.classList.toggle('hidden', currentTab !== 'photos');
+            groupImage.classList.toggle('hidden', currentTab === 'timelines' || currentTab === 'notes');
+
+            if (id) {
+                heading.textContent = `Chỉnh sửa ${getTabName(currentTab)}`;
+                const item = appData[currentTab].find(i => i.id === id);
+                if (item) {
+                    document.getElementById('edit-id').value = item.id;
+                    document.getElementById('edit-year').value = item.year || '10';
+                    document.getElementById('edit-date').value = item.date || '';
+                    document.getElementById('edit-title').value = item.title || item.author || '';
+                    document.getElementById('edit-desc').value = item.desc || item.caption || item.content || '';
+                    if (currentTab === 'events') document.getElementById('edit-location').value = item.location || '';
+                    if (currentTab === 'photos') {
+                        document.getElementById('edit-category').value = item.category || 'Lớp học';
+                        document.getElementById('edit-image-url').value = item.url || '';
+                    }
+                    if (currentTab === 'events') {
+                        document.getElementById('edit-image-url').value = item.image || '';
+                    }
+                }
+            } else {
+                heading.textContent = `Thêm mới ${getTabName(currentTab)}`;
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function getTabName(tab) {
+            return { timelines: 'Cột mốc', events: 'Sự kiện', photos: 'Hình ảnh', notes: 'Lời nhắn' }[tab];
+        }
+
+        function handleAdminImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxDim = 1000;
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > maxDim || height > maxDim) {
+                        if (width > height) {
+                            height = Math.round((height * maxDim) / width);
+                            width = maxDim;
+                        } else {
+                            width = Math.round((width * maxDim) / height);
+                            height = maxDim;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    tempBase64Image = canvas.toDataURL('image/jpeg', 0.8);
+                    document.getElementById('edit-image-url').value = '[Đã tải ảnh từ máy]';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById('admin-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+            const year = document.getElementById('edit-year').value;
+            const date = document.getElementById('edit-date').value.trim();
+            const title = document.getElementById('edit-title').value.trim();
+            const desc = document.getElementById('edit-desc').value.trim();
+            const urlInput = document.getElementById('edit-image-url').value.trim();
+            const finalImg = tempBase64Image || (urlInput !== '[Đã tải ảnh từ máy]' ? urlInput : '') || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80';
+
+            if (currentTab === 'timelines') {
+                if (id) {
+                    const item = appData.timelines.find(i => i.id === id);
+                    if (item) { item.year = year; item.date = date; item.title = title; item.desc = desc; }
+                } else {
+                    appData.timelines.push({ id: 'tl-' + Date.now(), year, date, title, desc });
+                }
+            } else if (currentTab === 'events') {
+                const location = document.getElementById('edit-location').value.trim() || 'THPT Chuyên Huỳnh Mẫn Đạt';
+                if (id) {
+                    const item = appData.events.find(i => i.id === id);
+                    if (item) { item.year = year; item.date = date; item.title = title; item.location = location; item.desc = desc; if (finalImg) item.image = finalImg; }
+                } else {
+                    appData.events.unshift({ id: 'ev-' + Date.now(), year, date, location, title, image: finalImg, desc });
+                }
+            } else if (currentTab === 'photos') {
+                const category = document.getElementById('edit-category').value;
+                if (id) {
+                    const item = appData.photos.find(i => i.id === id);
+                    if (item) { item.year = year; item.category = category; item.title = title; item.caption = desc; if (finalImg) item.url = finalImg; }
+                } else {
+                    appData.photos.unshift({ id: 'ph-' + Date.now(), year, category, title, caption: desc, url: finalImg });
+                }
+            } else if (currentTab === 'notes') {
+                if (id) {
+                    const item = appData.notes.find(i => i.id === id);
+                    if (item) { item.author = title; item.classTag = document.getElementById('edit-year').options[document.getElementById('edit-year').selectedIndex].text; item.content = desc; }
+                } else {
+                    appData.notes.unshift({ id: 'nt-' + Date.now(), author: title, classTag: '10T2 (2026–2027)', date: date, content: desc });
+                }
+            }
+
+            saveData();
+            closeEditModal();
+            showToast('Đã lưu thành công và đồng bộ với trang chính!');
+        });
+
+        function deleteAdminItem(id) {
+            appData[currentTab] = appData[currentTab].filter(i => i.id !== id);
+            saveData();
+            showToast('Đã xóa mục thành công.');
+        }
+
+        function exportJSON() {
+            const dataStr = JSON.stringify(appData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Backup_10T2_HUMADA_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Đã xuất file backup dữ liệu thành công!');
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, function(m) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m];
+            });
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateStats();
+            renderTable();
+        });
+    </script>
+</body>
+</html>
